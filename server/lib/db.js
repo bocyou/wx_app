@@ -1,38 +1,24 @@
 const mysql = require('mysql');
 
+
+const Sequelize = require('sequelize');
+
 const config = require('../config');
 
-function query(sql){
 
-	var connection = mysql.createConnection({
-		host : config.mysql.host,
-		port : config.mysql.port,
-		user : config.mysql.user,
-		password : config.mysql.pass,
-		database : 'shop'
-	});
+const db = new Sequelize('shop', config.mysql.user, config.mysql.pass, 
+	{ host:config.mysql.host, dialect:'mysql'}
+	);
 
-	connection.connect();
 
-	connection.query(sql, function (error, result) {
-			return sql;
+db.authenticate().then(() => {
+    console.log('Connection has been established successfully.');
+  }).catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
-  		if (error) {
-  			return 'nimeia';
-  			return error;
-  		}
-  		if (result) {
-  			return 'laji';
-  			return result;	
-  		} else {
-  			return 'fuck';
-  		}
+module.exports = db
 
-	});
-	connection.end();
 
-}
 
-module.exports = {
-	query
-}
+

@@ -3,10 +3,11 @@
  */
 async function get(ctx, next) {
 	var user_model = require('../models/user');
-	var data = user_model.get_user_list();
-	console.log(data);
-  const { signature, timestamp, nonce, echostr } = ctx.query
-  ctx.body = 'hello world! ' + data.toString()
+	var data = await user_model.get_user_list();
+
+  // const { signature, timestamp, nonce, echostr } = ctx.query
+  	ctx.body = JSON.stringify(data)
+   // + data.toString()
 }
 
 
