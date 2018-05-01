@@ -1,0 +1,7 @@
+
+<view>
+  <view bindtap="getUserList"><text>获取用户列表</text></view>
+  <view>
+    <text class="userinfo-nickname" wx:for="{{user_list}}" wx:key="id">{{item.id}}:{{item.username}}</text>
+  </view>
+</view>

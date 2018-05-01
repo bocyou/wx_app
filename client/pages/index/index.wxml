@@ -57,3 +57,15 @@
         </navigator>
     </view>
 </view>
+
+<view class="uploader">
+  <view class="uploader-text">
+    <navigator url="/pages/goods/addGoods" hover-class="navigator-hover">添加商品</navigator>
+  </view>
+</view>
+
+<view class="uploader">
+  <view class="uploader-text">
+    <navigator url="/pages/goods/goodsList" hover-class="navigator-hover">商品列表</navigator>
+  </view>
+</view>
