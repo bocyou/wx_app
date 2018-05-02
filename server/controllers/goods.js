@@ -2,7 +2,8 @@
  * 响应 GET 请求（响应微信配置时的签名检查请求）
  */
 async function add_goods(ctx, next) {
-	goods_query = ctx.request.query
+	console.log(ctx)
+	goods_query = ctx.request.body
 
 	//先添加商品
 	goods_info = {
@@ -13,37 +14,40 @@ async function add_goods(ctx, next) {
 		'goods_price': goods_query.goods_price,
 		'goods_img_url': goods_query.goods_img_url,
 		'shop_id': goods_query.shop_id,
-		'status': 1,
+		'status': 0,
 		'add_time': Math.round(Date.now() / 1000)
 	}
 	//更新相册表goods_id字段
-	
 
-
-	var goods_model = require('../models/goods')
-	var data = await goods_model.add_goods(goods_info)
+	goods_model = require('../models/goods')
+	data = await goods_model.add_goods(goods_info)
   	if(data){
-  		ctx.body = 'success'
+  		ctx.body = {'code':200, 'message':'添加成功'}
   	}else{
-  		ctx.body = 'error'	
+  		ctx.body = {'code':500, 'message':'添加失败'}
   	}
-  // const { signature, timestamp, nonce, echostr } = ctx.query
-  	// ctx.body = JSON.stringify(data)
-  	
-   // + data.toString()
 }
 
 
 async function get_goods_list(ctx, next) {
 
-	var goods_model = require('../models/goods')
+	goods_model = require('../models/goods')
 
-	var where = {'goods_sn': 'G001'}
-	var data = await goods_model.get_goods_list(where)
+	search_data = ctx.request.query
+	goods_name = search_data.query
+	goods_sn = search_data.query
 
-  // const { signature, timestamp, nonce, echostr } = ctx.query
-  	ctx.body = JSON.stringify(data)
-   // + data.toString()
+	where = {}
+	if (goods_name) {
+		where.goods_name = goods_name
+	}
+	if (goods_sn) {
+		where.goods_sn = goods_sn
+	}
+	data = await goods_model.get_goods_list(where)
+
+  	ctx.body = {'code':200, 'data': data}
+
 }
 
 
