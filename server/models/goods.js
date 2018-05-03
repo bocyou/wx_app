@@ -8,7 +8,8 @@ var Goods = db.define(
 	{  
 		id: {
 			type: Sequelize.INTEGER,
-			primaryKey: true	
+			primaryKey: true,
+			autoIncrement: true	
 		},	
 	  	goods_sn: {
 	  		type: Sequelize.STRING,
@@ -59,14 +60,36 @@ var Goods = db.define(
 
 function add_goods(values)
 {
-	return Goods.create(values);
+	return	Goods.create(values)
 }
 
 
-function get_goods_list(where)
+function edit_goods(values, where)
+{
+	if (where) {
+		return Goods.update(values, {where: where})
+	} else {
+		return false
+	}
+	
+}
+
+
+function del_goods(where)
+{
+	return Goods.destroy({
+		where: where
+	});
+	
+}
+
+
+function get_goods_list(where, offset = 0, limit = 20)
 {
 	return Goods.findAll({
-		where: where
+		where: where,
+		offset: offset,
+		limit: limit
 	});
 	
 }
@@ -74,6 +97,9 @@ function get_goods_list(where)
 
 module.exports = {
 	add_goods,
+	edit_goods,
+	del_goods,
 	get_goods_list
+
 }
 
