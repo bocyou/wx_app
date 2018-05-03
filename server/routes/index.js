@@ -36,4 +36,18 @@ router.post('/message', controllers.message.post)
 // GET
 router.get('/test', controllers.test.get)
 
+
+
+// 商品模块 //
+router.get('/goods/add_goods', controllers.goods.add_goods)
+router.get('/goods/edit_goods', controllers.goods.edit_goods)
+router.get('/goods/del_goods', controllers.goods.del_goods)
+router.get('/goods/get_goods_list', controllers.goods.get_goods_list)
+
+// 图片模块 //
+router.get('/photo/add_photo', controllers.photo.add_photo)
+router.get('/photo/edit_photo', controllers.photo.edit_photo)
+router.get('/photo/del_photo', controllers.photo.del_photo)
+router.get('/photo/get_photo_list', controllers.photo.get_photo_list)
+
 module.exports = router
