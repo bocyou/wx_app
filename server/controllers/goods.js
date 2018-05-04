@@ -122,6 +122,15 @@ async function del_goods(ctx, next) {
 
 }
 
+async function get_goods_info(ctx, next) {
+	goods_id = ctx.request.query.goods_id
+
+	goods_model = require('../models/goods')
+	goods_info = await goods_model.get_goods_info(goods_id)
+	// console.log(goods_info)
+  	ctx.body = {'code':200, 'data': goods_info}
+
+}
 
 async function get_goods_list(ctx, next) {
 	search_data = ctx.request.query
@@ -149,5 +158,6 @@ module.exports = {
   add_goods,
   edit_goods,
   del_goods,
+  get_goods_info,
   get_goods_list
 }

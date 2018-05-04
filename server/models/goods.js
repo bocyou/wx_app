@@ -84,6 +84,13 @@ function del_goods(where)
 }
 
 
+function get_goods_info(goods_id)
+{
+	return Goods.findById(goods_id);
+	
+}
+
+
 function get_goods_list(where, offset = 0, limit = 20)
 {
 	return Goods.findAll({
@@ -99,6 +106,7 @@ module.exports = {
 	add_goods,
 	edit_goods,
 	del_goods,
+	get_goods_info,
 	get_goods_list
 
 }
