@@ -51,4 +51,18 @@ router.get('/photo/edit_photo', controllers.photo.edit_photo)
 router.get('/photo/del_photo', controllers.photo.del_photo)
 router.get('/photo/get_photo_list', controllers.photo.get_photo_list)
 
+
+// 购物车模块 //
+router.get('/cart/add_cart', controllers.cart.add_cart)
+router.get('/cart/edit_cart', controllers.cart.edit_cart)
+router.get('/cart/del_cart', controllers.cart.del_cart)
+router.get('/cart/get_cart_list', controllers.cart.get_cart_list)
+
+// 订单模块 //
+router.get('/order/submit_order', controllers.order.submit_order)
+router.get('/order/update_order', controllers.order.update_order)
+router.get('/order/get_order_info', controllers.order.get_order_info)
+router.get('/order/get_order_list', controllers.order.get_order_list)
+
+  
 module.exports = router
