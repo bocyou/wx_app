@@ -26,6 +26,14 @@ var config = {
         uploadUrl: `${host}/weapp/upload`,
 
         addGoodsUrl: `${api_host}/goods/add_goods`,
+        editGoodsUrl: `${api_host}/goods/edit_goods`,
+        goodsListUrl: `${api_host}/goods/get_goods_list`,
+        goodsInfoUrl: `${api_host}/goods/get_goods_info`,
+        setCoverUrl: `${api_host}/photo/set_cover`,
+        delPhotoUrl: `${api_host}/photo/del_photo`,
+    },
+    page: {
+      'page_size': 1
     }
 };
 

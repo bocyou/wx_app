@@ -77,10 +77,18 @@ function get_order_info(order_id)
 
 function get_order_list(where, offset = 0, limit = 20)
 {
-	return Order.findAll({
+	return Order.findAndCountAll({
 		where: where,
 		offset: offset,
 		limit: limit
+	});
+	
+}
+
+function get_order_count(where)
+{
+	return Order.count({
+		where: where
 	});
 	
 }
@@ -90,7 +98,8 @@ module.exports = {
 	add_order,
 	edit_order,
 	get_order_info,
-	get_order_list
+	get_order_list,
+	get_order_count
 
 }
 

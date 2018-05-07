@@ -1,0 +1,35 @@
+<!--pages/goods/editGoods.wxml-->
+<text>pages/goods/editGoods.wxml</text>
+<text>编辑商品</text>
+
+<view>
+<text>商品名称</text>
+<input bindblur='setGoodsName' value='{{goods_info.goods_name}}' />
+</view>
+<view>
+<text>商品价格</text>
+<input bindblur='setGoodsPrice' value='{{goods_info.goods_price}}' />
+</view>
+<view>
+<text>商品描述</text>
+<input bindblur='setGoodsDescription' value='{{goods_info.goods_description}}' />
+</view>
+
+<!-- 上传图片测试 -->
+<view class="uploader">
+    <view class="uploader-text" bindtap="doUpload">
+        <text>上传图片</text>
+    </view>
+    <view class="uploader-container" wx:if="{{goods_info.goods_img_url}}">
+        <image
+            class="uploader-image"
+            src="{{goods_info.goods_img_url}}"
+            mode="aspectFit"
+            bindtap="previewImg"
+        ></image>
+    </view>
+</view>
+
+
+<view>
+<button bindtap="editGoods">提交</button></view>

@@ -4,13 +4,44 @@
     "pages/addCgi/addCgi",
     "pages/test/test",
     "pages/goods/addGoods",
-    "pages/goods/goodsList"
+    "pages/goods/goodsList",
+    "pages/goods/editGoods",
+    "pages/cart/cartList",
+    "pages/goods/goodsInfo",
+    "pages/order/orderList",
+    "pages/order/checkout"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "Wafer Quick Start",
-    "navigationBarTextStyle": "black"
-  }
+    "backgroundColor": "#FAEBD7",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#E0FFFF",
+    "navigationBarTitleText": "我的小店",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 0
+  },
+  "tabBar": {
+    "backgroundColor": "#E0FFFF",
+    "color": "#000000",
+    "selectedColor": "#FF0000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/cart/cartList",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
 }

@@ -4,9 +4,14 @@
 	"miniprogramRoot": "./client",
 	"qcloudRoot": "./server",
 	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
 		"newFeature": true
 	},
 	"appid": "wxaf8b50ba2a498b08",
 	"projectname": "nodejs%E7%89%88%E6%9C%AC",
+	"libVersion": "1.9.9",
 	"condition": {}
 }

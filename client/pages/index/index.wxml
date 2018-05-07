@@ -66,6 +66,12 @@
 
 <view class="uploader">
   <view class="uploader-text">
-    <navigator url="/pages/goods/goodsList" hover-class="navigator-hover">商品列表</navigator>
+    <navigator url="/pages/goods/editGoods?goods_id=22" hover-class="navigator-hover">编辑商品</navigator>
+  </view>
+</view>
+
+<view class="uploader">
+  <view class="uploader-text">
+    <navigator url="/pages/goods/goodsList?shop_id=1" hover-class="navigator-hover">商品列表</navigator>
   </view>
 </view>

@@ -110,6 +110,8 @@ async function get_order_list(ctx, next) {
 		'status': 1,
 		'page': 1
 	}
+	page = search_data.page > 0 ? parseInt(search_data.page) : 1
+	page_size = search_data.page_size > 0 && search_data.page_size < 100 ? parseInt(search_data.page_size) : 20
 
 	goods_name = search_data.goods_name
 	status = search_data.status
@@ -122,9 +124,11 @@ async function get_order_list(ctx, next) {
 		where.status = status
 	}
 	order_model = require('../models/order')
-	order_list = await order_model.get_order_list(where, 0, 20)
+	order_data = await order_model.get_order_list(where, 0, 20)
+	order_data.page = page
+	order_data.page_count = Math.ceil(order_data.count / page_size)
 
-  	ctx.body = {'code':200, 'data': order_list}
+  	ctx.body = {'code':200, 'data': order_data}
 
 }
 

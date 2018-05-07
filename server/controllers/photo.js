@@ -30,30 +30,21 @@ async function add_photo(ctx, next) {
 
 
 
-async function edit_photo(ctx, next) {
+async function set_cover(ctx, next) {
 	photo_query = ctx.request.body
 
-	//测试数据
-	photo_query = {
-		'id': 2,
-		'goods_id': 1,
-		'goods_path': 'https://res.wx.qq.com/mpres/htmledition/images/mp_qrcode3a7b38.gif',
-		'is_cover': 1,
-		'sort': 0
-	}
-
-	photo_info = {
-		'goods_id': photo_query.goods_id,
-		'goods_path': photo_query.goods_path,
-		'is_cover': photo_query.is_cover,
-		'sort': photo_query.sort
-	}
-
-	where = {'id': photo_query.id}
+	id = photo_query.photo_id
+	goods_id = photo_query.goods_id
 
 	photo_model = require('../models/photo')
-	edit_result = await photo_model.edit_photo(photo_info, where)
-  	if (edit_result) {
+	photo_info = {'is_cover': 0}
+	where = {'goods_id': goods_id}
+	update_result = await photo_model.edit_photo(photo_info, where)
+
+	where = {'id': id}
+	photo_info = {'is_cover': 1}
+	set_cover_result = await photo_model.edit_photo(photo_info, where)
+  	if (set_cover_result) {
   		ctx.body = {'code':200, 'message':'编辑成功'}
   	}else{
   		ctx.body = {'code':500, 'message':'编辑失败'}
@@ -93,7 +84,7 @@ async function get_photo_list(ctx, next) {
 
 module.exports = {
   add_photo,
-  edit_photo,
+  set_cover,
   del_photo,
   get_photo_list
 }

@@ -38,10 +38,11 @@ router.get('/test', controllers.test.get)
 
 
 
+
 // 商品模块 //
-router.get('/goods/add_goods', controllers.goods.add_goods)
-router.get('/goods/edit_goods', controllers.goods.edit_goods)
-router.get('/goods/del_goods', controllers.goods.del_goods)
+router.post('/goods/add_goods', controllers.goods.add_goods)
+router.post('/goods/edit_goods', controllers.goods.edit_goods)
+router.post('/goods/del_goods', controllers.goods.del_goods)
 router.get('/goods/get_goods_info', controllers.goods.get_goods_info)
 router.get('/goods/get_goods_list', controllers.goods.get_goods_list)
 

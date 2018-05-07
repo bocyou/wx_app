@@ -1,6 +1,7 @@
-// pages/goods/goodsList.js
+// pages/goods/goodsInfo.js
 
 var util = require('../../utils/util.js')
+
 var app = getApp()
 
 Page({
@@ -9,12 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    'page': 1,
-    'page_count': 0,
-    'count': 0,
-    'page_size': app.config.page.page_size,
-    'goodsList': [],
-    'options': {}
+    'goods_id': 0,
+    'goods_info': {}
   },
 
   /**
@@ -22,9 +19,9 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      'options': options
-    }) 
-    this.get_goods_list()
+      goods_id: options.goods_id
+    })
+    this.getGoodsInfo()
   },
 
   /**
@@ -59,45 +56,30 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.get_goods_list()
+  
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.page < this.data.page_count) {
-      this.setData({
-        'page': this.data.page + 1
-      })
-      this.get_goods_list()
-    } else {
-      util.showSuccess('提示', '没有数据')
-    }
-
+  
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    return {
-      title: '商品列表',
-      path: '/pages/goods/goodsList'
-    }
+  
   },
 
-  get_goods_list: function () {
-    console.log(this.route) //当前页面路径  pages/goods/goodsList
-    console.log(getCurrentPages()) //获取当前页面栈的实例
-    var shop_id = this.data.options.shop_id
+  getGoodsInfo: function () {
+    var goods_id = this.data.goods_id
     var that = this
     wx.request({
-      url: app.config.service.goodsListUrl, //仅为示例，并非真实的接口地址
+      url: app.config.service.goodsInfoUrl, //仅为示例，并非真实的接口地址
       data: {
-        'shop_id': shop_id,
-        'page': that.data.page,
-        'page_size': that.data.page_size
+        'goods_id': goods_id
       },
       method: 'GET',
       header: {
@@ -105,16 +87,34 @@ Page({
       },
       success: function (res) {
         that.setData({
-          'goodsList': res.data.data.rows,
-          'page_count': res.data.data.page_count,
-          'count': res.data.data.count
+          'goods_info': res.data.data
         })
-        console.log(that.data.goodsList)
+        console.log(that.data.goods_info)
       },
       fail: function (e) {
         util.showModel('错误', e)
       }
     })
+  },
 
+  addToCart: function () {
+    wx.request({
+      url: app.config.service.goodsInfoUrl, //仅为示例，并非真实的接口地址
+      data: {
+        'goods_id': this.data.goods_id,
+        'goods_number': 1
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        util.showSuccess('成功')      
+      },
+      fail: function (e) {
+        util.showModel('错误', e)
+      }
+    })
   }
+
 })

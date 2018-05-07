@@ -12,10 +12,7 @@ var Goods = db.define(
 			autoIncrement: true	
 		},	
 	  	goods_sn: {
-	  		type: Sequelize.STRING,
-	  		validate: {
-	  			notEmpty: true
-	  		}
+	  		type: Sequelize.STRING
 	  	},  
 	  	goods_name: {
 	  		type: Sequelize.STRING,
@@ -93,10 +90,18 @@ function get_goods_info(goods_id)
 
 function get_goods_list(where, offset = 0, limit = 20)
 {
-	return Goods.findAll({
+	return Goods.findAndCountAll({
 		where: where,
 		offset: offset,
 		limit: limit
+	});
+	
+}
+
+function get_goods_count(where)
+{
+	return Goods.count({
+		where: where
 	});
 	
 }
@@ -107,7 +112,8 @@ module.exports = {
 	edit_goods,
 	del_goods,
 	get_goods_info,
-	get_goods_list
+	get_goods_list,
+	get_goods_count
 
 }
 

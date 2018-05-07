@@ -4,21 +4,6 @@
 async function add_goods(ctx, next) {
 	goods_query = ctx.request.body
 
-	//测试数据
-	goods_query = {
-		'goods_name': '防晒霜',
-		'goods_sn': 'G001',
-		'goods_description': '防晒霜描述',
-		'goods_tag': 1,
-		'goods_price': 100,
-		'goods_img_url': 'https://res.wx.qq.com/mpres/htmledition/images/mp_qrcode3a7b38.gif',
-		'shop_id': 1,
-		'photo_list': [
-			{'goods_path': 'https://res.wx.qq.com/mpres/htmledition/images/mp_qrcode3a7b38.gif', 'is_cover': 1},
-			{'goods_path': 'https://res.wx.qq.com/mpres/htmledition/images/mp_qrcode3a7b38.gif', 'is_cover': 0}
-		]
-	}
-
 	//先添加商品
 	goods_info = {
 		'goods_name': goods_query.goods_name,
@@ -34,44 +19,32 @@ async function add_goods(ctx, next) {
 	//更新相册表goods_id字段
 
 	goods_model = require('../models/goods')
-	add_result = await goods_model.add_goods(goods_info)
-	goods_id = add_result.dataValues.id
-	console.log('goods_id = ' + add_result.dataValues.id)
-  	if (goods_id) {
-  		photo_model = require('../models/photo')
-  		photo_list = goods_query.photo_list
-  		for (i=0; i < photo_list.length; i++) {
-  			photo_info = {
-  				'goods_id': goods_id,
-  				'goods_path': photo_list[i].goods_path,
-  				'is_cover': photo_list[i].is_cover,
-  				'sort': i
-  			}
-  			add_photo_result = await photo_model.add_photo(photo_info)
-  		}							
+	add_result = await goods_model.add_goods(goods_info)  
 
-  		ctx.body = {'code':200, 'message':'添加成功'}
-  	}else{
-  		ctx.body = {'code':500, 'message':'添加失败'}
-  	}
+  goods_id = add_result.id
+	console.log('goods_id = ' + add_result.id)
+  if (goods_id) {
+    photo_model = require('../models/photo')
+    photo_list = goods_query.photo_list
+    for (i=0; i < photo_list.length; i++) {
+      photo_info = {
+        'goods_id': goods_id,
+        'goods_path': photo_list[i].img_url,
+        'is_cover': photo_list[i].is_cover,
+        'sort': i
+      }
+      add_photo_result = await photo_model.add_photo(photo_info)
+    }							
+
+    ctx.body = { 'code': 200, 'message': '添加成功'}
+  }else{
+    ctx.body = {'code':500, 'message':'添加失败'}
+  }
 }
-
 
 
 async function edit_goods(ctx, next) {
 	goods_query = ctx.request.body
-
-	//测试数据
-	goods_query = {
-		'goods_id': 15,
-		'goods_name': '防晒霜001',
-		'goods_sn': 'G001',
-		'goods_description': '防晒霜描述001',
-		'goods_tag': 2,
-		'goods_price': 1000,
-		'goods_img_url': 'https://res.wx.qq.com/mpres/htmledition/images/mp_qrcode3a7b38.gif',
-		'shop_id': 1
-	}
 
 	//先添加商品
 	goods_info = {
@@ -127,6 +100,11 @@ async function get_goods_info(ctx, next) {
 
 	goods_model = require('../models/goods')
 	goods_info = await goods_model.get_goods_info(goods_id)
+
+	photo_where = {'goods_id': goods_id}
+	photo_model = require('../models/photo')
+	photo_list = await photo_model.get_photo_list(photo_where, 0, 9)
+	goods_info.photo_list = photo_list
 	// console.log(goods_info)
   	ctx.body = {'code':200, 'data': goods_info}
 
@@ -135,11 +113,10 @@ async function get_goods_info(ctx, next) {
 async function get_goods_list(ctx, next) {
 	search_data = ctx.request.query
 
-	//测试数据
-	search_data = {'goods_name':'防晒霜'}
-
 	goods_name = search_data.goods_name
-	goods_sn = search_data.goods_sn
+	page = search_data.page > 0 ? parseInt(search_data.page) : 1
+	page_size = search_data.page_size > 0 && search_data.page_size < 100 ? parseInt(search_data.page_size) : 20
+	// goods_sn = search_data.goods_sn
 
 	where = {}
 	if (goods_name) {
@@ -147,9 +124,12 @@ async function get_goods_list(ctx, next) {
 	}
 
 	goods_model = require('../models/goods')
-	goods_list = await goods_model.get_goods_list(where, 0, 20)
+	goods_data = await goods_model.get_goods_list(where, (page - 1)*page_size, page_size)
+	goods_data.page = page
+	goods_data.page_count = Math.ceil(goods_data.count / page_size)
 
-  	ctx.body = {'code':200, 'data': goods_list}
+
+  ctx.body = {'code':200, 'data': goods_data}
 
 }
 
