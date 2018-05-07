@@ -13,7 +13,7 @@ Page({
     'page_count': 0,
     'count': 0,
     'page_size': app.config.page.page_size,
-    'goodsList': [],
+    'goods_list': [],
     'options': {}
   },
 
@@ -105,7 +105,7 @@ Page({
       },
       success: function (res) {
         that.setData({
-          'goodsList': res.data.data.rows,
+          'goods_list': res.data.data.rows,
           'page_count': res.data.data.page_count,
           'count': res.data.data.count
         })

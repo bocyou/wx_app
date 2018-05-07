@@ -1,1 +1,7 @@
 /* pages/goods/goodsList.wxss */
+
+.add_cart{
+  color: '#FFF';
+  font-size: 13pt;
+  width: 100pt;
+}

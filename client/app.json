@@ -14,16 +14,17 @@
   "window": {
     "backgroundColor": "#FAEBD7",
     "backgroundTextStyle": "dark",
-    "navigationBarBackgroundColor": "#E0FFFF",
+    "navigationBarBackgroundColor": "#000000",
     "navigationBarTitleText": "我的小店",
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "enablePullDownRefresh": true,
     "onReachBottomDistance": 0
   },
   "tabBar": {
-    "backgroundColor": "#E0FFFF",
+    "backgroundColor": "#FFFFFF",
     "color": "#000000",
     "selectedColor": "#FF0000",
+    "position": "bottom",
     "list": [
       {
         "pagePath": "pages/index/index",
