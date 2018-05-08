@@ -102,13 +102,13 @@ Page({
   //设置封面图片
   setGoodsCover: function (e) {
     console.log(e)
-    var photo_list = this.data.photoList
+    var photo_list = this.data.goods_info.photo_list
     for (var i = 0; i < photo_list.length; i++) {
       photo_list[i]['is_cover'] = 0
     }
     photo_list[e.detail.id]['is_cover'] = 1
     this.setData({
-      'goods_info.goods_img_url': e.detail.id.img_url
+      'goods_info.goods_img_url': photo_list[e.detail.id]['img_url']
     })
     this.setData({
       'goods_info.photo_list': photo_list
@@ -164,10 +164,13 @@ Page({
               res = JSON.parse(res.data)
               console.log(res)
 
-              var photoList = that.data.goodsData.photoList
-              photoList.push({ 'img_url': res.data.imgUrl, 'is_cover': 0 })
+              // var photo_list = that.data.goods_info.photo_list
+              // photo_list.push({ 'img_url': res.data.imgUrl, 'is_cover': 1 })
+
+              var photo_list = { 'img_url': res.data.imgUrl, 'is_cover': 1 }
               that.setData({
-                'goods_info.photo_list': photoList
+                'goods_info.photo_list': photo_list,
+                'goods_info.goods_img_url': res.data.imgUrl
               })
               console.log(that.data)
             },
@@ -190,12 +193,13 @@ Page({
   // 预览图片
   previewImg: function () {
     wx.previewImage({
-      current: this.data.goodsData.goodsImgUrl,
-      urls: [this.data.goodsData.goodsImgUrl]
+      current: this.data.goods_info.goodsImgUrl,
+      urls: [this.data.goods_info.goodsImgUrl]
     })
   },
 
   editGoods: function () {
+    // 新增，编辑图片在编辑接口中处理，用图片id来区分是新增还是编辑
     wx.request({
       url: app.config.service.editGoodsUrl, //仅为示例，并非真实的接口地址
       data: {
@@ -223,46 +227,42 @@ Page({
     })
   },
 
-  setCover: function (photo_id) {
-    wx.request({
-      url: app.config.service.setCoverUrl, //仅为示例，并非真实的接口地址
-      data: {
-        photo_id: photo_id,
-        goods_id: this.data.goods_id
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == '200') {
-          util.showSuccess('成功', res.data.message)
-        } else {
-          util.showModel('失败', res.data.message)
-        }
-      }
-    })
-  },
+  delPhoto: function (i) {
+    var photo_list = this.data.goods_info.photo_list
+    var del_photo_info = photo_list[i]
 
-  delPhoto: function (photo_id) {
-    wx.request({
-      url: app.config.service.delPhotoUrl, //仅为示例，并非真实的接口地址
-      data: {
-        photo_id: photo_id,
-        goods_id: this.data.goods_id
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.code == '200') {
-          util.showSuccess('成功', res.data.message)
-        } else {
-          util.showModel('失败', res.data.message)
+    if (del_photo_info.id > 0) {
+      that = this
+      wx.request({
+        url: app.config.service.delPhotoUrl, //仅为示例，并非真实的接口地址
+        data: {
+          photo_id: del_photo_info.id,
+          goods_id: this.data.goods_id
+        },
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          if (res.data.code == '200') {
+            photo_list.remove(i)
+            that.setData({
+              'goods_info.photo_list': photo_list
+            })
+
+            util.showSuccess('成功', res.data.message)
+          } else {
+            util.showModel('失败', res.data.message)
+          }
         }
-      }
-    })
+      })
+    } else {
+      photo_list.remove(i)
+      that.setData({
+        'goods_info.photo_list': photo_list
+      })
+    }
+
   }
 
 })

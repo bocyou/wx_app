@@ -33,7 +33,7 @@ var config = {
         delPhotoUrl: `${api_host}/photo/del_photo`,
     },
     page: {
-      'page_size': 1
+      'page_size': 5
     }
 };
 

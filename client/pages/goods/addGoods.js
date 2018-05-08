@@ -145,7 +145,8 @@ Page({
               var photoList = that.data.photoList
               photoList.push({ 'img_url': res.data.imgUrl, 'is_cover': 0 })
               that.setData({
-                'photoList': photoList
+                'photoList': photoList,
+                'goodsData.goodsImgUrl': res.data.imgUrl
               })
               console.log(that.data)
             },
