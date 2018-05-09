@@ -29,8 +29,8 @@ async function add_goods(ctx, next) {
     for (i=0; i < photo_list.length; i++) {
       photo_info = {
         'goods_id': goods_id,
-        'goods_path': photo_list[i].img_url,
-        'is_cover': photo_list[i].is_cover,
+        'goods_path': photo_list[i]['goods_path'],
+        'is_cover': photo_list[i]['is_cover'],
         'sort': i
       }
       add_photo_result = await photo_model.add_photo(photo_info)

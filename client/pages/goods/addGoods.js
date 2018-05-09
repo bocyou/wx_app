@@ -117,10 +117,34 @@ Page({
     })
   },  
 
+
+  delPhoto: function (event) {
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '确定删除该图片？',
+      success: function (res) {
+        if (res.confirm) {
+          var i = event.currentTarget.dataset.index
+          console.log(event)
+          var photo_list = that.data.photoList
+          var del_photo_info = photo_list[i]
+          photo_list.splice(i, 1)
+          that.setData({
+            'photoList': photo_list
+          })
+          console.log(that.data)
+          
+        } else if (res.cancel) {
+          return
+        }
+      }
+    })
+  },
+
   // 上传图片接口
   doUpload: function () {
     var that = this
-
     // 选择图片
     wx.chooseImage({
       count: 9,
@@ -143,7 +167,7 @@ Page({
               console.log(res)
 
               var photoList = that.data.photoList
-              photoList.push({ 'img_url': res.data.imgUrl, 'is_cover': 0 })
+              photoList.push({ 'goods_path': res.data.imgUrl, 'is_cover': 0 })
               that.setData({
                 'photoList': photoList,
                 'goodsData.goodsImgUrl': res.data.imgUrl

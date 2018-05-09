@@ -1,5 +1,8 @@
 /* pages/goods/editGoods.wxss */
-
+.title{
+  background-color:white;
+  padding: 0 20rpx;
+}
 .goods_info{
   background-color:white;
   margin-top: 10rpx;
@@ -7,7 +10,6 @@
 }
 .goods_info view{
   margin-bottom: 20rpx;
-
 }
 .goods_info view input{
   border: solid 1rpx gray;
@@ -15,6 +17,7 @@
 }
 .goods_info view textarea{
   height:120px;
+  border: solid 1rpx gray;
 }
 
 .photo_list{
