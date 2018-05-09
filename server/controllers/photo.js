@@ -53,7 +53,7 @@ async function set_cover(ctx, next) {
 
 
 async function del_photo(ctx, next) {
-	id = ctx.request.query.id
+	id = ctx.request.query.photo_id
 	where = {'id': id}
 
 	photo_model = require('../models/photo')

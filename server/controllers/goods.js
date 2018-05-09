@@ -45,7 +45,7 @@ async function add_goods(ctx, next) {
 
 async function edit_goods(ctx, next) {
 	goods_query = ctx.request.body
-
+	goods_id = goods_query.goods_id
 	//先添加商品
 	goods_info = {
 		'goods_name': goods_query.goods_name,
@@ -56,7 +56,7 @@ async function edit_goods(ctx, next) {
 		'goods_img_url': goods_query.goods_img_url,
 	}
 
-	where = {'id': goods_query.goods_id}
+	where = {'id': goods_id}
 	//更新相册表goods_id字段
 
 	goods_model = require('../models/goods')
@@ -64,6 +64,31 @@ async function edit_goods(ctx, next) {
 
 	console.log(edit_result)
   	if(edit_result){
+  		photo_model = require('../models/photo')
+  		photo_list = goods_query.photo_list
+  		for (var i = 0; i < photo_list.length; i++) {
+  			if (photo_list[i]['id']) {
+  				//编辑
+  				where = {'id': photo_list[i]['id']}
+  				values = {
+  					'goods_id': goods_id,
+  					'goods_path': photo_list[i]['goods_path'],
+  					'is_cover': photo_list[i]['is_cover'],
+  					'sort': i
+  				}
+  				photo_model.edit_photo(values, where)
+  			} else {
+  				//新增
+  				values = {
+  					'goods_id': goods_id,
+  					'goods_path': photo_list[i]['goods_path'],
+  					'is_cover': photo_list[i]['is_cover'],
+  					'sort': i
+  				}
+  				photo_model.add_photo(values)	
+  			}
+  		}
+
   		ctx.body = {'code':200, 'message':'编辑成功'}
   	}else{
   		ctx.body = {'code':500, 'message':'编辑失败'}
@@ -95,6 +120,7 @@ async function del_goods(ctx, next) {
 
 }
 
+
 async function get_goods_info(ctx, next) {
 	goods_id = ctx.request.query.goods_id
 
@@ -104,9 +130,10 @@ async function get_goods_info(ctx, next) {
 	photo_where = {'goods_id': goods_id}
 	photo_model = require('../models/photo')
 	photo_list = await photo_model.get_photo_list(photo_where, 0, 9)
-	goods_info.photo_list = photo_list
+
+	data = {'goods_info': goods_info, 'photo_list': photo_list}
 	// console.log(goods_info)
-  	ctx.body = {'code':200, 'data': goods_info}
+  	ctx.body = {'code':200, 'data': data}
 
 }
 

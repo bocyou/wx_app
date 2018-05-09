@@ -10,7 +10,8 @@ Page({
    */
   data: {
     'goods_id': 0,
-    'goods_info': {}
+    'goods_info': {},
+    'photo_list': []
   },
 
   /**
@@ -56,7 +57,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+    this.get_goods_info()
   },
 
   /**
@@ -80,6 +81,7 @@ Page({
   },
 
   setGoodsDescription: function (e) {
+    console.log(e)
     this.setData({
       'goods_info.goods_description': e.detail.value
     })
@@ -102,7 +104,7 @@ Page({
   //设置封面图片
   setGoodsCover: function (e) {
     console.log(e)
-    var photo_list = this.data.goods_info.photo_list
+    var photo_list = this.data.photo_list
     for (var i = 0; i < photo_list.length; i++) {
       photo_list[i]['is_cover'] = 0
     }
@@ -111,7 +113,7 @@ Page({
       'goods_info.goods_img_url': photo_list[e.detail.id]['img_url']
     })
     this.setData({
-      'goods_info.photo_list': photo_list
+      'photo_list': photo_list
     })
   }, 
 
@@ -129,9 +131,10 @@ Page({
       },
       success: function (res) {
         that.setData({
-          'goods_info': res.data.data
+          'goods_info': res.data.data.goods_info,
+          'photo_list': res.data.data.photo_list,
         })
-        console.log(that.data.goods_info)
+        console.log(that.data)
       },
       fail: function (e) {
         util.showModel('错误', e)
@@ -164,12 +167,10 @@ Page({
               res = JSON.parse(res.data)
               console.log(res)
 
-              // var photo_list = that.data.goods_info.photo_list
-              // photo_list.push({ 'img_url': res.data.imgUrl, 'is_cover': 1 })
-
-              var photo_list = { 'img_url': res.data.imgUrl, 'is_cover': 1 }
+              var photo_list = that.data.photo_list
+              photo_list.push({ 'goods_path': res.data.imgUrl, 'is_cover': 0})
               that.setData({
-                'goods_info.photo_list': photo_list,
+                'photo_list': photo_list,
                 'goods_info.goods_img_url': res.data.imgUrl
               })
               console.log(that.data)
@@ -191,12 +192,12 @@ Page({
   },
 
   // 预览图片
-  previewImg: function () {
-    wx.previewImage({
-      current: this.data.goods_info.goodsImgUrl,
-      urls: [this.data.goods_info.goodsImgUrl]
-    })
-  },
+  // previewImg: function () {
+  //   wx.previewImage({
+  //     current: this.data.goods_info.goodsImgUrl,
+  //     urls: [this.data.goods_info.goodsImgUrl]
+  //   })
+  // },
 
   editGoods: function () {
     // 新增，编辑图片在编辑接口中处理，用图片id来区分是新增还是编辑
@@ -211,7 +212,7 @@ Page({
         // goods_tag: this.data.goods_info.goods_tag,
         goods_price: this.data.goods_info.goods_price,
         shop_id: this.data.goods_info.shop_id,
-        photo_list: this.data.goods_info.photo_list
+        photo_list: this.data.photo_list
       },
       method: 'POST',
       header: {
@@ -227,41 +228,57 @@ Page({
     })
   },
 
-  delPhoto: function (i) {
-    var photo_list = this.data.goods_info.photo_list
-    var del_photo_info = photo_list[i]
+  delPhoto: function (event) {
+    var that = this
+    wx.showModal({
+      title: '提示',
+      content: '确定删除该图片？',
+      success: function (res) {
+        if (res.confirm) {
+          var i = event.currentTarget.dataset.index
+          console.log(event)
+          var photo_list = that.data.photo_list
+          var del_photo_info = photo_list[i]
 
-    if (del_photo_info.id > 0) {
-      that = this
-      wx.request({
-        url: app.config.service.delPhotoUrl, //仅为示例，并非真实的接口地址
-        data: {
-          photo_id: del_photo_info.id,
-          goods_id: this.data.goods_id
-        },
-        method: 'GET',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function (res) {
-          if (res.data.code == '200') {
-            photo_list.remove(i)
-            that.setData({
-              'goods_info.photo_list': photo_list
+          if (del_photo_info.id > 0) {
+            wx.request({
+              url: app.config.service.delPhotoUrl, //仅为示例，并非真实的接口地址
+              data: {
+                photo_id: del_photo_info.id,
+                goods_id: that.data.goods_id
+              },
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.code == '200') {
+                  photo_list.splice(i, 1)
+                  photo_list.sort()
+                  that.setData({
+                    'photo_list': photo_list
+                  })
+                  console.log(that.data)
+
+                  util.showSuccess('成功', res.data.message)
+                } else {
+                  util.showModel('失败', res.data.message)
+                }
+              }
             })
-
-            util.showSuccess('成功', res.data.message)
           } else {
-            util.showModel('失败', res.data.message)
+            photo_list.splice(i, 1)
+            that.setData({
+              'photo_list': photo_list
+            })
+            console.log(that.data)
           }
+        } else if (res.cancel) {
+          return
         }
-      })
-    } else {
-      photo_list.remove(i)
-      that.setData({
-        'goods_info.photo_list': photo_list
-      })
-    }
+      }
+    })
+
 
   }
 

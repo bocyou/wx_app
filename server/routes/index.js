@@ -48,7 +48,6 @@ router.get('/goods/get_goods_list', controllers.goods.get_goods_list)
 
 // 图片模块 //
 router.get('/photo/add_photo', controllers.photo.add_photo)
-router.get('/photo/edit_photo', controllers.photo.edit_photo)
 router.get('/photo/del_photo', controllers.photo.del_photo)
 router.get('/photo/get_photo_list', controllers.photo.get_photo_list)
 

@@ -1,1 +1,49 @@
 /* pages/goods/editGoods.wxss */
+
+.goods_info{
+  background-color:white;
+  margin-top: 10rpx;
+  padding:20rpx;
+}
+.goods_info view{
+  margin-bottom: 20rpx;
+
+}
+.goods_info view input{
+  border: solid 1rpx gray;
+
+}
+.goods_info view textarea{
+  height:120px;
+}
+
+.photo_list{
+  padding:15rpx;
+  height:750rpx;
+}
+.photo_list .image{
+  width:230rpx;
+  margin-left:5rpx;
+  margin-right:5rpx;
+  margin-bottom:10rpx;
+  height:230rpx;
+  float:left;
+}
+.photo_list .image image{
+  width:100%;
+  height:230rpx;
+}
+.photo_list .image button{
+  width:100%;
+  height:230rpx;
+  background-color:white;
+  font-size:50rpx;
+  line-height:200rpx;
+}
+.submit{
+  margin-bottom: 50rpx;
+}
+.submit button{
+  height: 94rpx;
+  width: 550rpx;
+}
