@@ -1,4 +1,5 @@
 
+
 const db = require('../lib/db');
 
 const Sequelize = require('sequelize');
@@ -72,7 +73,9 @@ function del_cart(where)
 
 function get_cart_info(where)
 {
-	return Goods.findOne(where);
+	return Cart.findOne({
+		where: where
+	});
 	
 }
 
@@ -103,4 +106,6 @@ module.exports = {
 	get_cart_list_join_goods
 
 }
+
+
 

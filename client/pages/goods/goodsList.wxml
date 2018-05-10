@@ -17,7 +17,7 @@
   <view style='float:left; width:60%; height:300rpx;position:relative;'>
     <view class='goods_name' style='max-height:120rpx;overflow:hidden; margin-top:10rpx; margin-left:10rpx;'>{{item.goods_name}}</view>
     <view style='height:60rpx; margin-top:10rpx; margin-left:10rpx;'>￥{{item.goods_price}}</view>
-    <navigator url="/pages/goods/editGoods?goods_id={{item.id}}" hover-class="navigator-hover">编辑商品</navigator>
-    <button style='height:60rpx; width:200rpx; margin-bottom:10rpx; margin-right:10rpx; font-size:25rpx;position:absolute;right:20rpx;bottom:20rpx;' type='primary' class='add_cart'>加入购物车</button>
+    
+    <navigator url="/pages/goods/goodsInfo?goods_id={{item.id}}" hover-class="navigator-hover"><button style='height:60rpx; width:200rpx; margin-bottom:10rpx; margin-right:10rpx; font-size:25rpx;position:absolute;right:20rpx;bottom:20rpx;' type='primary' class='add_cart'>商品详情</button></navigator>
   </view>
 </view>

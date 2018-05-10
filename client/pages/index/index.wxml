@@ -72,6 +72,6 @@
 
 <view class="uploader">
   <view class="uploader-text">
-    <navigator url="/pages/goods/goodsList?shop_id=1" hover-class="navigator-hover">商品列表</navigator>
+    <navigator open-type='redirect' url="/pages/goods/goodsList?shop_id=1" hover-class="navigator-hover">商品列表</navigator>
   </view>
 </view>

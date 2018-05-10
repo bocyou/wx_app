@@ -1,29 +1,29 @@
 /**
  * 响应 GET 请求（响应微信配置时的签名检查请求）
  */
-async function add_cart(ctx, next) {
-	cart_query = ctx.request.body
 
-	//测试数据
-	cart_query = {
-		'goods_id': 1,
-		'goods_number': 1
-	}
+async function add_cart(ctx, next) {
+	cart_query = ctx.request.query
+
+	goods_id = cart_query.goods_id
+	goods_number = cart_query.goods_number
 
 	//获取商品信息
 	goods_model = require('../models/goods')
-	goods_info = goods_model.get_goods_info(cart_query.goods_id)
+	goods_info = await goods_model.get_goods_info(goods_id)
 
-	cart_where = {'user_id': 1, 'goods_id': cart_query.goods_id}
+	console.log(goods_info)
+	cart_where = {'user_id': 1, 'goods_id': goods_info.id}
 	cart_model = require('../models/cart')
 	cart_info = await cart_model.get_cart_info(cart_where)
 
 	if (cart_info) {
 		//更新
+		goods_number = parseInt(cart_info.goods_number) + parseInt(goods_number)
 		update_data = {
-			'goods_number': cart_info.goods_number + cart_query.goods_number,
+			'goods_number': goods_number,
 			'goods_name': goods_info.goods_name,
-			'goods_price': goods_info.goods_price,
+			'goods_price': goods_info.goods_price
 		}
 		update_where = {'id': cart_info.id}
 		update_result = await cart_model.edit_cart(update_data, update_where)
@@ -39,10 +39,11 @@ async function add_cart(ctx, next) {
 			'shop_id': 1,
 			'goods_name': goods_info.goods_name,
 			'goods_price': goods_info.goods_price,
-			'goods_id': cart_query.goods_id,
-			'goods_number': cart_query.goods_number,
+			'goods_id': goods_info.id,
+			'goods_number': goods_number,
 			'add_time': Math.round(Date.now() / 1000)	
 		}
+
 		add_result = await cart_model.add_cart(cart_data)
 		if (add_result) {
 			ctx.body = {'code':200, 'message':'添加成功'}

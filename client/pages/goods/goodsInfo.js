@@ -87,7 +87,8 @@ Page({
       },
       success: function (res) {
         that.setData({
-          'goods_info': res.data.data
+          'goods_info': res.data.data.goods_info,
+          'goods_info.photo_list': res.data.data.photo_list
         })
         console.log(that.data.goods_info)
       },
@@ -99,7 +100,7 @@ Page({
 
   addToCart: function () {
     wx.request({
-      url: app.config.service.goodsInfoUrl, //仅为示例，并非真实的接口地址
+      url: app.config.service.addToCartUrl, //仅为示例，并非真实的接口地址
       data: {
         'goods_id': this.data.goods_id,
         'goods_number': 1
@@ -109,7 +110,11 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        util.showSuccess('成功')      
+        wx.showToast({
+          title: '成功加入购物车',
+          icon: 'success',
+          duration: 2000
+        })   
       },
       fail: function (e) {
         util.showModel('错误', e)

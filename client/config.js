@@ -31,6 +31,8 @@ var config = {
         goodsInfoUrl: `${api_host}/goods/get_goods_info`,
         setCoverUrl: `${api_host}/photo/set_cover`,
         delPhotoUrl: `${api_host}/photo/del_photo`,
+
+        addToCartUrl: `${api_host}/cart/add_cart`,
     },
     page: {
       'page_size': 5
