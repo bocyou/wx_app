@@ -92,7 +92,7 @@ function get_cart_list(where, offset = 0, limit = 20)
 
 function get_cart_list_join_goods(where, offset = 0, limit = 20)
 {
-	return db.query('SELECT cart.* FROM cart LEFT JOIN goods ON cart.goods_id = goods.id', { type: Sequelize.QueryTypes.SELECT})
+	return db.query('SELECT cart.*,goods.goods_img_url FROM cart LEFT JOIN goods ON cart.goods_id = goods.id', { type: Sequelize.QueryTypes.SELECT})
 	
 }
 

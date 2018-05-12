@@ -59,7 +59,7 @@ router.get('/cart/del_cart', controllers.cart.del_cart)
 router.get('/cart/get_cart_list', controllers.cart.get_cart_list)
 
 // 订单模块 //
-router.get('/order/submit_order', controllers.order.submit_order)
+router.post('/order/submit_order', controllers.order.submit_order)
 router.get('/order/update_order', controllers.order.update_order)
 router.get('/order/get_order_info', controllers.order.get_order_info)
 router.get('/order/get_order_list', controllers.order.get_order_list)

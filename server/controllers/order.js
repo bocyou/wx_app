@@ -2,19 +2,17 @@
  * 响应 GET 请求（响应微信配置时的签名检查请求）
  */
 async function submit_order(ctx, next) {
-	order_query = ctx.request.body
+	// order_query = ctx.request.body
 
 	//测试数据
 	order_query = {
 		'user_id': 1,
 		'shop_id': 1,
+		'user_name': '脉动',
 		'consignee': '向动',
 		'address': '深圳市福田区',
 		'remark': '备注'
 	}
-
-	cart_model = require('../models/cart')
-	cart_list = await cart_model.get_cart_list_join_goods()
 
 	goods_amount = 100
 	order_amount = 100
@@ -26,6 +24,7 @@ async function submit_order(ctx, next) {
 	order_info = {
 		'user_id': order_query.user_id,
 		'shop_id': order_query.shop_id,
+		'user_name': order_query.user_name,
 		'consignee': order_query.consignee,
 		'address': order_query.address,
 		'remark': order_query.remark,
@@ -38,21 +37,28 @@ async function submit_order(ctx, next) {
 
 	order_model = require('../models/order')
 	add_result = await order_model.add_order(order_info)
-	order_id = add_result.dataValues.id
-	console.log('order_id = ' + add_result.dataValues.id)
+	order_id = add_result.id
+	console.log('order_id = ' + add_result.id)
   	if (order_id) {
 		//添加商品记录	
-		order_goods_model = require('../models/order_goods')					
-		for (goods in cart_list) {
+		cart_model = require('../models/cart')
+		cart_list = await cart_model.get_cart_list_join_goods()
+
+		console.log(cart_list)
+		order_goods_model = require('../models/order_goods')
+		cart_list.forEach(function(goods){
 			goods_data = {
 				'order_id': order_id,
 				'goods_id': goods.goods_id,
 				'goods_name': goods.goods_name,
 				'goods_price': goods.goods_price,
 				'goods_number': goods.goods_number			
+
 			}
-			order_goods_model.add_order_goods(goods_data)
-		}
+			console.log(goods_data)
+			add_order_goods_result = order_goods_model.add_order_goods(goods_data)
+			console.log(add_order_goods_result)
+		})					
 
   		ctx.body = {'code':200, 'message':'添加成功'}
   	}else{

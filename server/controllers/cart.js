@@ -57,20 +57,15 @@ async function add_cart(ctx, next) {
 
 
 async function edit_cart(ctx, next) {
-	cart_query = ctx.request.body
-
-	//测试数据
-	cart_query = {
-		'cart_id': 15,
-		'goods_number': 2
-	}
+	cart_id = ctx.request.query.cart_id
+	goods_number = ctx.request.query.goods_number
 
 	//先添加商品
 	cart_info = {
-		'goods_number': cart_query.goods_number
+		'goods_number': goods_number
 	}
 
-	where = {'id': cart_query.cart_id}
+	where = {'id': cart_id}
 	//更新相册表goods_id字段
 
 	cart_model = require('../models/cart')
@@ -112,10 +107,10 @@ async function del_cart(ctx, next) {
 async function get_cart_list(ctx, next) {
 	user_id = ctx.request.query.user_id
 
-	where = {'user_id': user_id}
+	where = {'user_id': 1}
 
 	cart_model = require('../models/cart')
-	cart_list = await cart_model.get_cart_list(where, 0, 20)
+	cart_list = await cart_model.get_cart_list_join_goods(where, 0, 20)
 
   	ctx.body = {'code':200, 'data': cart_list}
 

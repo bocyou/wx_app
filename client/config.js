@@ -33,6 +33,12 @@ var config = {
         delPhotoUrl: `${api_host}/photo/del_photo`,
 
         addToCartUrl: `${api_host}/cart/add_cart`,
+        editCartUrl: `${api_host}/cart/edit_cart`,
+        cartListUrl: `${api_host}/cart/get_cart_list`,
+        delCartUrl: `${api_host}/cart/del_cart`,
+
+        submitOrderUrl: `${api_host}/order/submit_order`,  
+        
     },
     page: {
       'page_size': 5

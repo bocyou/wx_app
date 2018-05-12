@@ -128,7 +128,6 @@ Page({
           var i = event.currentTarget.dataset.index
           console.log(event)
           var photo_list = that.data.photoList
-          var del_photo_info = photo_list[i]
           photo_list.splice(i, 1)
           that.setData({
             'photoList': photo_list

@@ -11,38 +11,38 @@ var Order = db.define(
 			primaryKey: true,
 			autoIncrement: true	
 		},	
-	  	shop_id: {
-	  		type: Sequelize.INTEGER
-	  	},  
-	  	user_id: {
-	  		type: Sequelize.INTEGER
-	  	},  
-	  	user_name: {
-	  		type: Sequelize.STRING
-	  	},
-	  	consignee: {
-	  		type: Sequelize.STRING
-	  	},
-	  	address: {
-	  		type: Sequelize.STRING
-	  	},
-	  	order_amount: {
-	  		type: Sequelize.DOUBLE(7,2)
-	  	},
-	  	goods_amount: {
-	  		type: Sequelize.DOUBLE(7,2)
-	  	},
-	  	remark: {
-	  		type: Sequelize.STRING
-	  	}
-		status: {
-	  		type: Sequelize.INTEGER,
-	  		isInt: true,
-	  	},
-	  	add_time: {
-	  		type: Sequelize.INTEGER,
-	  		isInt: true,
-	  	},
+    shop_id: {
+      type: Sequelize.INTEGER
+    },  
+    user_id: {
+      type: Sequelize.INTEGER
+    },  
+    user_name: {
+      type: Sequelize.STRING
+    },
+    consignee: {
+      type: Sequelize.STRING
+    },
+    address: {
+      type: Sequelize.STRING
+    },
+    order_amount: {
+      type: Sequelize.DOUBLE(7,2)
+    },
+    goods_amount: {
+      type: Sequelize.DOUBLE(7,2)
+    },
+    remark: {
+      type: Sequelize.STRING
+    },
+    status: {
+      type: Sequelize.INTEGER,
+      isInt: true,
+    },
+    add_time: {
+      type: Sequelize.INTEGER,
+      isInt: true,
+    },
 	},
 	{
 		freezeTableName: true,

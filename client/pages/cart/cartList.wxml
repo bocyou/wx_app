@@ -1,2 +1,27 @@
 <!--pages/cart/cartList.wxml-->
-<text>pages/cart/cartList.wxml</text>
+<view wx:for='{{cart_list}}' style='height:200rpx; margin:5px;' data-index="{{index}}" data-id='{{item.id}}' bindlongpress="delCart">
+  <view style='width:25%;height:200rpx;float:left;'>
+    <image
+      style='width:100%;height:200rpx;'
+      class="uploader-image"
+      src="{{item.goods_img_url}}"
+      mode="aspectFit"
+      bindtap="previewImg"
+    ></image>
+  </view>
+  <view style='float:left;width:60%;'>
+    <view>{{item.goods_name}}</view>
+    <view>
+      <button data-index="{{index}}" data-id='{{item.id}}' data-number='-1' bindtap='editCart' style='float:left; width:50px;'>-</button>
+      <input style='float:left; width:50px;' value='{{item.goods_number}}' type='number' confirm-type='done' />
+      <button data-index="{{index}}" data-id='{{item.id}}' data-number='1' bindtap='editCart' style='float:left;width:50px;'>+</button></view>
+  </view>
+  <view style='float:right;width:15%;'>
+    <view>￥{{item.goods_price}}</view>
+    <view>x{{item.goods_number}}</view>
+  </view>
+</view>
+
+<view>
+  <button type='primary' bindtap='submitOrder'>提交</button>
+</view>
