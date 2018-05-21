@@ -232,6 +232,17 @@ Page({
             },
             success: function(res){
               console.log(res)
+              wx.request({
+                url: config.service.loginUrl,
+                method: 'POST',
+                data: {
+                  open_id: res.data.openid
+                },
+                success: function (res) {
+                  console.log(res)
+                }
+              })
+              console.log(res)
             }
           })
         }
