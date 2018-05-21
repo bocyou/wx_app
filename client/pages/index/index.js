@@ -216,5 +216,25 @@ Page({
         }
         util.showBusy('信道连接中...')
         this.setData({ tunnelStatus: 'closed' })
+    },
+    testLogin: function () {
+      wx.login({
+        success: function(res) {
+          console.log(res)
+          wx.request({
+            url: 'https://api.weixin.qq.com/sns/jscode2session',
+            method: 'GET',
+            data: {
+              appid: config.appid,
+              secret: config.secret,
+              js_code: res.code,
+              grant_type: 'authorization_code' 
+            },
+            success: function(res){
+              console.log(res)
+            }
+          })
+        }
+      })
     }
 })

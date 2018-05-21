@@ -13,7 +13,7 @@
     <view>{{item.goods_name}}</view>
     <view>
       <button data-index="{{index}}" data-id='{{item.id}}' data-number='-1' bindtap='editCart' style='float:left; width:50px;'>-</button>
-      <input style='float:left; width:50px;' value='{{item.goods_number}}' type='number' confirm-type='done' />
+      <input data-index="{{index}}" data-id='{{item.id}}' data-type='input' bindblur='editCart' style='float:left; width:50px;' value='{{item.goods_number}}' type='number' confirm-type='done' />
       <button data-index="{{index}}" data-id='{{item.id}}' data-number='1' bindtap='editCart' style='float:left;width:50px;'>+</button></view>
   </view>
   <view style='float:right;width:15%;'>

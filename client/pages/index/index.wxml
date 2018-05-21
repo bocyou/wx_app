@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
     <!-- 用户登录测试 -->
-    <view class="userinfo" bindtap="login">
+    <view class="userinfo" bindtap="testLogin">
         <image
             class="userinfo-avatar"
             src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}"
@@ -72,6 +72,12 @@
 
 <view class="uploader">
   <view class="uploader-text">
-    <navigator open-type='redirect' url="/pages/goods/goodsList?shop_id=1" hover-class="navigator-hover">商品列表</navigator>
+    <navigator url="/pages/goods/goodsList?shop_id=1" hover-class="navigator-hover">商品列表</navigator>
+  </view>
+</view>
+
+<view class="uploader">
+  <view class="uploader-text">
+    <navigator url="/pages/order/orderList" hover-class="navigator-hover">订单列表</navigator>
   </view>
 </view>

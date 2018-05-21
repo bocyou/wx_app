@@ -7,14 +7,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    'page': 1,
+    'page_count': 0,
+    'count': 0,
+    'page_size': app.config.page.page_size,
+    'order_list': [],
+    'options': {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.getOrderList()
   },
 
   /**
@@ -56,7 +61,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+    this.getOrderList()
   },
 
   /**
@@ -64,5 +69,32 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  getOrderList: function () {
+    var that = this
+    wx.request({
+      url: app.config.service.getOrderListUrl, //仅为示例，并非真实的接口地址
+      data: {},
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          'page': res.data.data.page,
+          'order_list': res.data.data.rows,
+          'count': res.data.data.count,
+          'page_count': res.data.data.page_count
+        })
+      },
+      fail: function (e) {
+        util.showModel('错误', e)
+      }
+    })
+
   }
+
+
 })

@@ -94,12 +94,19 @@ Page({
 
   //点击+ - 或者直接输入数量时，改变data数据，然后触发该修改购物车函数，传入索引
   editCart: function (event) {
+    console.log(event)
     var edit_number = event.currentTarget.dataset.number
     var cart_id = event.currentTarget.dataset.id
     var index = event.currentTarget.dataset.index
+    var type = event.currentTarget.dataset.type
 
     var cart_list = this.data.cart_list
-    cart_list[index].goods_number = parseInt(cart_list[index].goods_number) + parseInt(edit_number)
+    if (type == 'input') {
+      cart_list[index].goods_number = event.detail.value
+    } else {
+      cart_list[index].goods_number = parseInt(cart_list[index].goods_number) + parseInt(edit_number)
+    }
+    
     this.setData({
       'cart_list': cart_list
     })

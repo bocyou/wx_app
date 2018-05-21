@@ -8,6 +8,8 @@ var host = 'https://qmuao5e8.qcloud.la';
 var api_host = 'https://qmuao5e8.qcloud.la/weapp';
 
 var config = {
+    appid: 'wxaf8b50ba2a498b08',
+    secret: '3b00c9f489e4c5c58c53d3a30773fc70',
 
     // 下面的地址配合云端 Demo 工作
     service: {
@@ -37,7 +39,8 @@ var config = {
         cartListUrl: `${api_host}/cart/get_cart_list`,
         delCartUrl: `${api_host}/cart/del_cart`,
 
-        submitOrderUrl: `${api_host}/order/submit_order`,  
+        submitOrderUrl: `${api_host}/order/submit_order`, 
+        getOrderListUrl: `${api_host}/order/get_order_list`, 
         
     },
     page: {
