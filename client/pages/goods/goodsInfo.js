@@ -102,6 +102,7 @@ Page({
     wx.request({
       url: app.config.service.addToCartUrl, //仅为示例，并非真实的接口地址
       data: {
+        'user_id': wx.getStorageSync('user_info').user_id,
         'goods_id': this.data.goods_id,
         'goods_number': 1
       },

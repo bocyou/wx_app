@@ -71,9 +71,12 @@ Page({
   getCartList: function () {
     var user_id = this.data.user_id
     var that = this
+    var user_id = wx.getStorageSync('user_info').user_id
     wx.request({
       url: app.config.service.cartListUrl, //仅为示例，并非真实的接口地址
-      data: {},
+      data: {
+        'user_id': user_id
+      },
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值

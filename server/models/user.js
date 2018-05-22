@@ -36,6 +36,9 @@ var User = db.define('user', {
   	secret_key: {
   		type: Sequelize.STRING
   	},
+    session_key: {
+      type: Sequelize.STRING
+    },
   	add_time: {
   		type: Sequelize.INTEGER
   	}  

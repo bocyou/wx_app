@@ -5,6 +5,7 @@
 async function add_cart(ctx, next) {
 	cart_query = ctx.request.query
 
+	user_id = cart_query.user_id
 	goods_id = cart_query.goods_id
 	goods_number = cart_query.goods_number
 
@@ -13,7 +14,7 @@ async function add_cart(ctx, next) {
 	goods_info = await goods_model.get_goods_info(goods_id)
 
 	console.log(goods_info)
-	cart_where = {'user_id': 1, 'goods_id': goods_info.id}
+	cart_where = {'user_id': user_id, 'goods_id': goods_info.id}
 	cart_model = require('../models/cart')
 	cart_info = await cart_model.get_cart_info(cart_where)
 
@@ -35,7 +36,7 @@ async function add_cart(ctx, next) {
 	} else {
 		//添加
 		cart_data = {
-			'user_id': 1,
+			'user_id': user_id,
 			'shop_id': 1,
 			'goods_name': goods_info.goods_name,
 			'goods_price': goods_info.goods_price,
@@ -107,10 +108,8 @@ async function del_cart(ctx, next) {
 async function get_cart_list(ctx, next) {
 	user_id = ctx.request.query.user_id
 
-	where = {'user_id': 1}
-
 	cart_model = require('../models/cart')
-	cart_list = await cart_model.get_cart_list_join_goods(where, 0, 20)
+	cart_list = await cart_model.get_cart_list_join_goods(user_id, 0, 20)
 
   	ctx.body = {'code':200, 'data': cart_list}
 

@@ -12,6 +12,7 @@ async function login(ctx, next) {
       'username': params.open_id,
       'password': params.open_id,
       'secret_key': params.open_id,
+      'session_key': params.session_key,
       'shop_id': 0,
       'sex': 0,
       'status': 1,

@@ -5,10 +5,37 @@ var util = require('../../utils/util.js')
 
 Page({
     data: {
+        canIUse: wx.canIUse('button.open-type.getUserInfo'),
         userInfo: {},
         logged: false,
         takeSession: false,
         requestResult: ''
+    },
+
+    onLoad: function () {
+      wx.getSetting({
+        success(res) {
+          if (res.authSetting['scope.userInfo']) {
+            wx.authorize({
+              scope: 'scope.userInfo',
+              success() {
+                // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+                wx.getUserInfo({
+                  success: function (res) {
+                    console.log(res.userInfo)
+                  }
+                })
+              },
+              fail() {
+                console.log('123456')
+              }
+            })
+          }
+        }
+      })
+    },
+    bindGetUserInfo: function (e) {
+      console.log(e.detail.userInfo)
     },
 
     // 用户登录示例
@@ -220,7 +247,6 @@ Page({
     testLogin: function () {
       wx.login({
         success: function(res) {
-          console.log(res)
           wx.request({
             url: 'https://api.weixin.qq.com/sns/jscode2session',
             method: 'GET',
@@ -231,18 +257,21 @@ Page({
               grant_type: 'authorization_code' 
             },
             success: function(res){
-              console.log(res)
               wx.request({
                 url: config.service.loginUrl,
                 method: 'POST',
                 data: {
-                  open_id: res.data.openid
+                  open_id: res.data.openid,
+                  session_key: res.data.session_key
                 },
                 success: function (res) {
-                  console.log(res)
+                  console.log(res.data.data)
+                  var user_info = {
+                    'user_id': res.data.data.id
+                  }
+                  wx.setStorageSync('user_info', user_info)
                 }
               })
-              console.log(res)
             }
           })
         }
