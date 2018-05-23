@@ -1,2 +1,24 @@
-<!--pages/order/orderList.wxml-->
-<text>pages/order/orderList.wxml</text>
+<view style='height:80rpx;background-color:#FFF'>
+  <view></view>
+  <view></view>
+  <view></view>
+</view>
+
+<view wx:for="{{order_list}}" style='height:300rpx;margin-left:20rpx;margin-right:20rpx;margin-top:10rpx; background-color:#FFF'>
+  <view style='float:left; width:40%;height:300rpx;'>
+    <image
+      style='width:100%;height:300rpx;'
+      class="uploader-image"
+      src="{{item.goods_img_url}}"
+      mode="aspectFit"
+      bindtap="previewImg"
+    ></image>
+  </view>
+  <view style='float:left; width:60%; height:300rpx;position:relative;'>
+    <view class='goods_name' style='max-height:120rpx;overflow:hidden; margin-top:10rpx; margin-left:10rpx;'>{{item.goods_name}}</view>
+    <view style='height:60rpx; margin-top:10rpx; margin-left:10rpx;'>￥{{item.goods_price}}</view>
+    
+    <navigator url="/pages/goods/goodsInfo?goods_id={{item.id}}" hover-class="navigator-hover"><button style='height:60rpx; width:200rpx; margin-bottom:10rpx; margin-right:10rpx; font-size:25rpx;position:absolute;right:20rpx;bottom:20rpx;' type='primary' class='add_cart'>商品详情</button></navigator>
+  </view>
+</view>
+

@@ -43,12 +43,10 @@ function add_order_goods(values)
 }
 
 
-function get_order_goods_list(where, offset = 0, limit = 20)
+function get_order_goods_list(where)
 {
 	return OrderGoods.findAll({
-		where: where,
-		offset: offset,
-		limit: limit
+		where: where
 	});
 	
 }

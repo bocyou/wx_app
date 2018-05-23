@@ -3,15 +3,17 @@ const db = require('../lib/db');
 
 const Sequelize = require('sequelize');
 
-var User = db.define('user', {  
-	id: {
-		type: Sequelize.INTEGER,
-		primaryKey: true,
-		autoIncrement: true		
-	},	
-	open_id: {
-		type: Sequelize.STRING	
-	},
+var User = db.define(
+  'user', 
+  {  
+  	id: {
+  		type: Sequelize.INTEGER,
+  		primaryKey: true,
+  		autoIncrement: true		
+  	},	
+  	open_id: {
+  		type: Sequelize.STRING	
+  	},
   	username: {
   		type: Sequelize.STRING
   	},  
@@ -43,7 +45,7 @@ var User = db.define('user', {
   		type: Sequelize.INTEGER
   	}  
 
-},
+  },
 	{
 		freezeTableName: true,
 		timestamps: false

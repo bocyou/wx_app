@@ -108,33 +108,75 @@ async function get_order_info(ctx, next) {
 
 
 async function get_order_list(ctx, next) {
-	search_data = ctx.request.query
+	user_id = ctx.request.query.user_id
+	page = ctx.request.query.page
+	page_size = ctx.request.query.page_size
 
 	//测试数据
-	search_data = {
-		'goods_name': '防晒霜',
-		'status': 1,
-		'page': 1
-	}
-	page = search_data.page > 0 ? parseInt(search_data.page) : 1
-	page_size = search_data.page_size > 0 && search_data.page_size < 100 ? parseInt(search_data.page_size) : 20
+	// search_data = {
+	// 	'goods_name': '防晒霜',
+	// 	'status': 1,
+	// 	'page': 1
+	// }
 
-	goods_name = search_data.goods_name
-	status = search_data.status
+	page = page > 0 ? parseInt(page) : 1
+	page_size = page_size > 0 && page_size < 100 ? parseInt(page_size) : 20
 
-	where = {'user_id': 1}
-	if (goods_name) {
-		// where.goods_name = goods_name
-	}
-	if (status) {
-		where.status = status
-	}
+	// goods_name = goods_name
+	// status = status
+
+	where = {'user_id': user_id}
+	// if (goods_name) {
+	// 	// where.goods_name = goods_name
+	// }
+	// if (status) {
+	// 	where.status = status
+	// }
 	order_model = require('../models/order')
-	order_data = await order_model.get_order_list(where, 0, 20)
+	order_data = await order_model.get_order_list(where, (page - 1)*page_size, 20)
 	order_data.page = page
 	order_data.page_count = Math.ceil(order_data.count / page_size)
 
-  	ctx.body = {'code':200, 'data': order_data}
+	console.log('order_data')
+	console.log(order_data)
+	
+	var order_list_id = []
+	order_list = order_data.rows
+
+	console.log('order_list')
+	console.log(order_list)
+
+	for (let i in order_list) {
+		order_list_id.push(order_list[i].id)
+	}
+	console.log('order_list_id')
+	console.log(order_list_id)
+
+	order_goods_where = {'order_id': {$in: order_list_id}}
+	order_goods_model = require('../models/order_goods')
+	goods_list = await order_goods_model.get_order_goods_list(order_goods_where)
+
+	console.log('goods_list')
+	console.log(goods_list)
+
+	var goods_list_data = []
+	for (let i in goods_list) {
+		var order_id = goods_list[i].order_id
+	    if (goods_list_data[order_id] == undefined){
+	      goods_list_data[order_id] = []
+	    }
+    	goods_list_data[order_id].push(goods_list[i])
+	}
+	
+	console.log('goods_list_data')
+	console.log(goods_list_data)
+
+	for (let i in order_data.rows) {
+	    // var order_id = order_data.rows[i].id
+	    order_data.rows[i].goods_list = 'goods_list'
+	}
+
+  ctx.body = {'code':200, 'data': order_data}
 
 }
 
